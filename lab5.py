@@ -1,8 +1,10 @@
 class Fighter:
     def __init__(self, name: str, health: int, damage_per_attack: int):
+        if not isinstance(name, str) or not name.strip():
+            raise ValueError("Ім'я бійця має бути непорожнім рядком")
         self.__name = name
-        self.__health = health
-        self.__damage_per_attack = damage_per_attack
+        self.set_health(health)
+        self.set_damage(damage_per_attack)
         print(f"Створено бійця: {self.__name}")
 
     def __del__(self):
@@ -18,15 +20,21 @@ class Fighter:
         return self.__damage_per_attack
 
     def set_health(self, health: int):
+        if not isinstance(health, int) or isinstance(health, bool) or health < 0:
+            raise ValueError("Здоров'я має бути цілим невід'ємним числом (>= 0)")
         self.__health = health
 
     def set_damage(self, damage: int):
+        if not isinstance(damage, int) or isinstance(damage, bool) or damage <= 0:
+            raise ValueError("Урон має бути цілим додатним числом (> 0)")
         self.__damage_per_attack = damage
 
     def is_alive(self) -> bool:
         return self.__health > 0
 
     def take_damage(self, damage: int):
+        if not isinstance(damage, int) or isinstance(damage, bool) or damage < 0:
+            raise ValueError("Отримана шкода має бути цілим невід'ємним числом (>= 0)")
         self.__health -= damage
         if self.__health < 0:
             self.__health = 0
@@ -37,6 +45,8 @@ class Fighter:
 
 class Fight:
     def __init__(self, fighter1: Fighter, fighter2: Fighter):
+        if not isinstance(fighter1, Fighter) or not isinstance(fighter2, Fighter):
+            raise TypeError("Обидва учасники бою мають бути об'єктами класу Fighter")
         self.__fighter1 = fighter1
         self.__fighter2 = fighter2
         print(f"\nБій між {fighter1.get_name()} та {fighter2.get_name()} розпочато!")
