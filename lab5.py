@@ -18,16 +18,24 @@ class Fighter:
         return self.__damage_per_attack
 
     def set_health(self, health: int):
+        if not isinstance(health, int) or health < 0:
+            raise ValueError("Здоров'я повинно бути невід'ємним цілим числом")
         self.__health = health
 
     def set_damage(self, damage: int):
+        if not isinstance(damage, int) or damage < 0:
+            raise ValueError("Урон повинен бути невід'ємним цілим числом")
         self.__damage_per_attack = damage
 
     def is_alive(self) -> bool:
         return self.__health > 0
 
     def take_damage(self, damage: int):
+        if not isinstance(damage, int) or damage < 0:
+            raise ValueError("Отримана шкода повинна бути невід'ємним цілим числом")
+
         self.__health -= damage
+
         if self.__health < 0:
             self.__health = 0
 
@@ -92,7 +100,7 @@ def main():
     winner_name = battle.get_winner()
     print(f"\nРезультат бою: переміг {winner_name}")
 
-    print("\n" + "="*50)
+    print("\n" + "=" * 50)
     print("Другий бій")
 
     warrior = Fighter("Спартак", 120, 20)
